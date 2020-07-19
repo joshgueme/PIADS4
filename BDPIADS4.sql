@@ -1,10 +1,19 @@
-#Creacion de base de datos
 CREATE DATABASE IF NOT EXISTS BDPIADS4;
 
-#Seleccion de base de datos
 USE BDPIADS4;
 
-#Creacion de tablas
+CREATE TABLE IF NOT EXISTS rol(
+	IdRol INT NOT NULL,
+    DescRol VARCHAR(45),
+    PRIMARY KEY(IdRol)
+)ENGINE = INNODB;
+
+CREATE TABLE IF NOT EXISTS estatusUsuario(
+	IdEstatus INT NOT NULL,
+    DescEstatus VARCHAR(45),
+    PRIMARY KEY(IdEstatus)
+)ENGINE = INNODB;
+
 CREATE TABLE IF NOT EXISTS usuario(
 	IdUsuario INT NOT NULL,
     Nombre VARCHAR(45),
@@ -23,45 +32,6 @@ CREATE TABLE IF NOT EXISTS usuario(
     CONSTRAINT FK_Usuario_Estatus
     FOREIGN KEY(IdEstatus)
     REFERENCES estatusUsuario(IdEstatus)
-)ENGINE = INNODB;
-
-CREATE TABLE IF NOT EXISTS estatusUsuario(
-	IdEstatus INT NOT NULL,
-    DescEstatus VARCHAR(45),
-    PRIMARY KEY(IdEstatus)
-)ENGINE = INNODB;
-
-CREATE TABLE IF NOT EXISTS rol(
-	IdRol INT NOT NULL,
-    DescRol VARCHAR(45),
-    PRIMARY KEY(IdRol)
-)ENGINE = INNODB;
-
-CREATE TABLE IF NOT EXISTS automovil(
-	IdAutomovil INT NOT NULL,
-    IdFabricante INT NOT NULL,
-    IdModelo INT NOT NULL,
-    IdVersion INT NOT NULL,
-    FecRegistro DATETIME,
-    IdUsuario INT NOT NULL,
-    PRIMARY KEY(IdAutomovil),
-    
-    #Constraints
-    CONSTRAINT FK_Automovil_Fabricante
-    FOREIGN KEY(IdFabricante)
-    REFERENCES fabricante(IdFabricante),
-    
-    CONSTRAINT FK_Automovil_Modelo
-    FOREIGN KEY(IdModelo)
-    REFERENCES modelo(IdModelo),
-    
-    CONSTRAINT FK_Automovil_Version
-    FOREIGN KEY(IdVersion)
-    REFERENCES version(IdVersion),
-    
-    CONSTRAINT FK_Automovil_Usuario
-    FOREIGN KEY(IdUsuario)
-    REFERENCES usuario(IdUsuario)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS fabricante(
@@ -94,6 +64,56 @@ CREATE TABLE IF NOT EXISTS version(
     REFERENCES modelo(IdModelo)
 )ENGINE = INNODB;
 
+CREATE TABLE IF NOT EXISTS automovil(
+	IdAutomovil INT NOT NULL,
+    IdFabricante INT NOT NULL,
+    IdModelo INT NOT NULL,
+    IdVersion INT NOT NULL,
+    FecRegistro DATETIME,
+    IdUsuario INT NOT NULL,
+    PRIMARY KEY(IdAutomovil),
+    
+    #Constraints
+    CONSTRAINT FK_Automovil_Fabricante
+    FOREIGN KEY(IdFabricante)
+    REFERENCES fabricante(IdFabricante),
+    
+    CONSTRAINT FK_Automovil_Modelo
+    FOREIGN KEY(IdModelo)
+    REFERENCES modelo(IdModelo),
+    
+    CONSTRAINT FK_Automovil_Version
+    FOREIGN KEY(IdVersion)
+    REFERENCES version(IdVersion),
+    
+    CONSTRAINT FK_Automovil_Usuario
+    FOREIGN KEY(IdUsuario)
+    REFERENCES usuario(IdUsuario)
+)ENGINE = INNODB;
+
+CREATE TABLE IF NOT EXISTS cliente(
+	IdCliente INT NOT NULL,
+    Nombre VARCHAR(45),
+    APaterno VARCHAR(45),
+    AMaterno VARCHAR(45),
+    Telefono VARCHAR(45),
+    Email VARCHAR(45),
+    FecAlta DATETIME,
+    PRIMARY KEY(IdCliente)
+)ENGINE = INNODB;
+
+CREATE TABLE IF NOT EXISTS color(
+	IdColor INT NOT NULL,
+    DescColor VARCHAR(45),
+    PRIMARY KEY(IdColor)
+)ENGINE = INNODB;
+
+CREATE TABLE IF NOT EXISTS estatusAutomovil(
+	IdEstatusAutomovil INT NOT NULL,
+    DescEstatus VARCHAR(45),
+    PRIMARY KEY(IdEstatusAutomovil)
+)ENGINE = INNODB;
+
 CREATE TABLE IF NOT EXISTS automovil_Detalle(
 	IdAutomovil INT NOT NULL,
     NoSerie BIGINT NOT NULL,
@@ -118,27 +138,10 @@ CREATE TABLE IF NOT EXISTS automovil_Detalle(
     REFERENCES estatusAutomovil(IdEstatusAutomovil)
 )ENGINE = INNODB;
 
-CREATE TABLE IF NOT EXISTS color(
-	IdColor INT NOT NULL,
-    DescColor VARCHAR(45),
-    PRIMARY KEY(IdColor)
-)ENGINE = INNODB;
-
-CREATE TABLE IF NOT EXISTS estatusAutomovil(
-	IdEstatusAutomovil INT NOT NULL,
-    DescEstatus VARCHAR(45),
-    PRIMARY KEY(IdEstatusAutomovil)
-)ENGINE = INNODB;
-
-CREATE TABLE IF NOT EXISTS cliente(
-	IdCliente INT NOT NULL,
-    Nombre VARCHAR(45),
-    APaterno VARCHAR(45),
-    AMaterno VARCHAR(45),
-    Telefono VARCHAR(45),
-    Email VARCHAR(45),
-    FecAlta DATETIME,
-    PRIMARY KEY(IdCliente)
+CREATE TABLE IF NOT EXISTS estatusRenta(
+	IdEstatusRenta INT NOT NULL,
+    DescRenta VARCHAR(45),
+    PRIMARY KEY(IdEstatusRenta)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS renta(
@@ -201,10 +204,10 @@ CREATE TABLE IF NOT EXISTS venta (
     REFERENCES estatusVenta(IdEstatusVenta)
 )  ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS estatusventa(
-	IdEstatusVenta INT NOT NULL,
-    DescEstatus VARCHAR(45),
-    PRIMARY KEY(IdEstatusVenta)
+CREATE TABLE IF NOT EXISTS concepto(
+	IdConcepto INT NOT NULL,
+    DescConcepto VARCHAR(45),
+    PRIMARY KEY(IdConcepto)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS venta_Detalle(
@@ -223,12 +226,6 @@ CREATE TABLE IF NOT EXISTS venta_Detalle(
     REFERENCES concepto(IdConcepto)
 )ENGINE = INNODB;
 
-CREATE TABLE IF NOT EXISTS concepto(
-	IdConcepto INT NOT NULL,
-    DescConcepto VARCHAR(45),
-    PRIMARY KEY(IdConcepto)
-)ENGINE = INNODB;
-
 CREATE TABLE IF NOT EXISTS automovil_Concepto(
 	IdRegistro INT NOT NULL,
     IdAutomovil INT NOT NULL,
@@ -245,4 +242,3 @@ CREATE TABLE IF NOT EXISTS automovil_Concepto(
     FOREIGN KEY(IdConcepto)
     REFERENCES concepto(IdConcepto)
 )ENGINE = INNODB;
-
