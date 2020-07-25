@@ -23,30 +23,20 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Automovil
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="ConsultaAuto.html">Consulta</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Registro</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Renta
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item active" href="ConsultaRenta.html">Consulta</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Registro</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Salida/Recepcion</a>
-              </div>
+            <li class="nav-item">
+              <a class="nav-link" href="ConsultaAuto.html" aria-disabled="true">Automovil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Usuarios</a>
+              <a class="nav-link" href="Clientes.html" aria-disabled="true">Clientes</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="ConsultaRenta.html" aria-disabled="true">Renta</a>
+        </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Venta.html" aria-disabled="true">Venta</a>
+          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Usuarios.html" aria-disabled="true">Usuarios</a>
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
@@ -95,28 +85,64 @@
                               <br/>
                               <div class="row">
                                       <div class="col-sm">
-                                          <label for="cmbVersion">Fecha Inicio</label>
-                                          <input type="date" class="form-control"/>
+                                          <label for="cmbNoSerie">Numero de Serie</label>
+                                          <select class="form-control" name="cmbModelo">
+                                          <option>ASDFASD1651681</option>
+                                          <option>RGSFGHS6151818</option>
+                                          <option>GWEGRWE5165168</option>
+                                        </select>
                                       </div>
-                                      <div class="col-sm">
-                                          <label for="cmbVersion">Fecha Fin</label>
-                                          <input type="date" class="form-control"/>
-                                      </div>
+                                        <div class="col-sm">
+                                          <label for="cmbEstatus">Estatus</label>
+                                          <select class="form-control" name="cmbEstatus">
+                                              <option>Activo</option>
+                                              <option>Concluido</option>
+                                              <option>Cancelado</option>
+                                            </select>
+                                        </div>
                               </div>
+                              <br/>
+                              <div class="row">
+                                  <div class="col-sm">
+                                    <label for="cmbFechaIni">Fecha Inicio</label>
+                                    <input type="date" class="form-control"/>
+                                  </div>
+                                  <div class="col-sm">
+                                    <label for="cmbFechaFin">Fecha Fin</label>
+                                    <input type="date" class="form-control"/>
+                                  </div>
+                              </div>
+                              <br/>
                               <div class="row">
                                 <div class="col-sm">
-                                  <br/>
-                                  &nbsp; &nbsp; &nbsp;<input type="checkbox" class="form-check-input" name="chkDisp"/>
-                                  <label class="form-check-label" for="chkAct">Activa</label>
+                                  <label for="cmbSalida">Fecha Salida</label>
+                                  <input type="date" class="form-control"/>
                                 </div>
-                              </div>
-                              </div>
-                              <br/>
-                              <center>
-                              <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
-                              </center>
-                              <br/>
+                                <div class="col-sm">
+                                  <label for="cmbEntrada">Fecha Entrada</label>
+                                  <input type="date" class="form-control"/>
+                                </div>
                             </div>
+                            <br/>
+                            <div class="row">
+                              <div class="col-sm">
+                                <button type="submit" class="btn btn-primary" name="btnBuscar">Buscar</button>
+                              </div>
+                              <div class="col-sm">
+                                <button type="submit" class="btn btn-success" name="btnRegistrar">Registrar</button>
+                              </div>
+                              <div class="col-sm">
+                                <button type="submit" class="btn btn-warning" name="btnModificar">Modificar</button>
+                              </div>
+                              <div class="col-sm">
+                                <button type="submit" class="btn btn-danger" name="btnCancelar">Cancelar</button>
+                              </div>
+                              <div class="col-sm">
+                                <button type="submit" class="btn btn-outline-warning" name="btnLimpiar">Limpiar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                     </form>
 
         </div>
