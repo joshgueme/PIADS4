@@ -5,13 +5,13 @@ USE BDPIADS4;
 CREATE TABLE IF NOT EXISTS rol(
 	IdRol INT NOT NULL,
     DescRol VARCHAR(45),
-    PRIMARY KEY(IdRol)
+    constraint PK_IdRol PRIMARY KEY(IdRol)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS estatusUsuario(
 	IdEstatus INT NOT NULL,
     DescEstatus VARCHAR(45),
-    PRIMARY KEY(IdEstatus)
+     constraint PK_IdEstatus PRIMARY KEY(IdEstatus)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS usuario(
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS usuario(
     IdRol INT NOT NULL,
     FecAlta DATETIME,
     IdEstatus INT NOT NULL,
-    PRIMARY KEY(IdUsuario),
+     constraint PK_IdUsuario PRIMARY KEY(IdUsuario),
     
     #Constraints
     CONSTRAINT FK_Usuario_Rol
@@ -37,14 +37,14 @@ CREATE TABLE IF NOT EXISTS usuario(
 CREATE TABLE IF NOT EXISTS fabricante(
 	IdFabricante INT NOT NULL,
     DescFabricante VARCHAR(45),
-    PRIMARY KEY(IdFabricante)
+     constraint PK_IdFabricante PRIMARY KEY(IdFabricante)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS modelo(
 	IdModelo INT NOT NULL,
     Modelo VARCHAR(45),
     IdFabricante INT NOT NULL,
-    PRIMARY KEY(IdModelo),
+     constraint PK_IdModelo PRIMARY KEY(IdModelo),
     
     #Constraints
     CONSTRAINT FK_Modelo_Fabricante
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS version(
 	IdVersion INT NOT NULL,
     DescVersion VARCHAR(45),
     idModelo INT NOT NULL,
-    PRIMARY KEY(IdVersion),
+     constraint PK_IdVersion PRIMARY KEY(IdVersion),
     
     #Constraints
     CONSTRAINT FK_Version_Modelo
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS automovil(
     IdVersion INT NOT NULL,
     FecRegistro DATETIME,
     IdUsuario INT NOT NULL,
-    PRIMARY KEY(IdAutomovil),
+     constraint PK_IdAutomovil PRIMARY KEY(IdAutomovil),
     
     #Constraints
     CONSTRAINT FK_Automovil_Fabricante
@@ -99,19 +99,19 @@ CREATE TABLE IF NOT EXISTS cliente(
     Telefono VARCHAR(45),
     Email VARCHAR(45),
     FecAlta DATETIME,
-    PRIMARY KEY(IdCliente)
+   constraint PK_IdCliente PRIMARY KEY(IdCliente)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS color(
 	IdColor INT NOT NULL,
     DescColor VARCHAR(45),
-    PRIMARY KEY(IdColor)
+    constraint PK_IdColor PRIMARY KEY(IdColor)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS estatusAutomovil(
 	IdEstatusAutomovil INT NOT NULL,
     DescEstatus VARCHAR(45),
-    PRIMARY KEY(IdEstatusAutomovil)
+    constraint PK_IdEstatusAutomovil PRIMARY KEY(IdEstatusAutomovil)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS automovil_Detalle(
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS automovil_Detalle(
     Placa VARCHAR(10),
     Observaciones VARCHAR(250),
     IdEstatusAutomovil INT NOT NULL,
-    PRIMARY KEY(NoSerie),
+    constraint PK_NoSerie PRIMARY KEY(NoSerie),
     
     #Constraints
     CONSTRAINT FK_AutomovilDetalle_Automovil
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS automovil_Detalle(
 CREATE TABLE IF NOT EXISTS estatusRenta(
 	IdEstatusRenta INT NOT NULL,
     DescRenta VARCHAR(45),
-    PRIMARY KEY(IdEstatusRenta)
+    constraint PK_IdEstatusRenta PRIMARY KEY(IdEstatusRenta)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS renta(
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS renta(
     FecEntrada DATETIME,
     Observaciones VARCHAR(250),
     IdEstatusRenta INT NOT NULL,
-    PRIMARY KEY(IdRenta),
+    constraint PK_IdRenta PRIMARY KEY(IdRenta),
     
     #Constraints
     CONSTRAINT FK_Renta_Usuario
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS renta(
 CREATE TABLE IF NOT EXISTS estatusRenta(
 	IdEstatusRenta INT NOT NULL,
     DescRenta VARCHAR(45),
-    PRIMARY KEY(IdEstatusRenta)
+    constraint PK_IdEstatusRenta PRIMARY KEY(IdEstatusRenta)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS venta (
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS venta (
     IVA DECIMAL(12 , 2 ),
     FecVenta DATETIME,
     IdEstatusVenta INT NOT NULL,
-    PRIMARY KEY (IdVenta),
+    constraint PK_IdVenta PRIMARY KEY (IdVenta),
     
     #Constraints
     CONSTRAINT FK_Venta_Renta
@@ -207,14 +207,14 @@ CREATE TABLE IF NOT EXISTS venta (
 CREATE TABLE IF NOT EXISTS concepto(
 	IdConcepto INT NOT NULL,
     DescConcepto VARCHAR(45),
-    PRIMARY KEY(IdConcepto)
+    constraint PK_IdConcepto PRIMARY KEY(IdConcepto)
 )ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS venta_Detalle(
 	IdVenta INT NOT NULL,
     IdConcepto INT NOT NULL,
     MONTO DECIMAL(12,2),
-    PRIMARY KEY(IdVenta,IdConcepto),
+    
     
     #Constraints
     CONSTRAINT FK_VentaDetalle_Venta
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS automovil_Concepto(
     IdAutomovil INT NOT NULL,
     IdConcepto INT NOT NULL,
     Monto DECIMAL(12,2),
-    PRIMARY KEY(IdRegistro),
+    constraint PK_IdRegistro PRIMARY KEY(IdRegistro),
     
     #Constraints
     CONSTRAINT FK_AutomovilConcepto_Automovil
