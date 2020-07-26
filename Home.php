@@ -14,7 +14,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>    
     <!--#endregion NavBar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="Home.html">
+        <a class="navbar-brand" href="Home.php">
         <img src="Imagenes/MtyRent.png" width="30" height="30" alt="" loading="lazy">
         Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,19 +24,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="ConsultaAuto.html" aria-disabled="true">Automovil</a>
+              <a class="nav-link" href="ConsultaAuto.php" aria-disabled="true">Automovil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Clientes.html" aria-disabled="true">Clientes</a>
+              <a class="nav-link" href="Clientes.php" aria-disabled="true">Clientes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="ConsultaRenta.html" aria-disabled="true">Renta</a>
+              <a class="nav-link" href="ConsultaRenta.php" aria-disabled="true">Renta</a>
           </li>
             <li class="nav-item">
-              <a class="nav-link" href="Venta.html" aria-disabled="true">Venta</a>
+              <a class="nav-link" href="Venta.php" aria-disabled="true">Venta</a>
           </li>
             <li class="nav-item">
-              <a class="nav-link" href="Usuarios.html" aria-disabled="true">Usuarios</a>
+              <a class="nav-link" href="Usuarios.php" aria-disabled="true">Usuarios</a>
             </li>
           </ul>
 
@@ -47,8 +47,8 @@
                   Perfil
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
-                      <a class="dropdown-item" href="CambiarContrasena.html">Cambiar Contraseña</a>
-                      <a class="dropdown-item" href="Login.html">Cerrar Sesión</a>
+                      <a class="dropdown-item" href="CambiarContrasena.php">Cambiar Contraseña</a>
+                      <a class="dropdown-item" href="Login.php">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
