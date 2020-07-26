@@ -1,23 +1,26 @@
 <?php
 include("Conexion.php");
-$res =  null;
-$query = null;
 if(isset($_POST["btnEntrar"]))
 {
-  $con = conectar();
   $usuario = $_POST["txtCuenta"];
   $contra = $_POST["txtContra"];
-  $query = "select 1 from Usuario where usuario = '" . $usuario . "' and Contraseña = '" . $contra."'";
-  $res = mysqli_query($con,$query);
-  echo $res;
-  if($res == true)
-  {
+
+  $Con = conectar();
+	$consulta = "call sp_login ('$usuario','$contra')";
+  $Resultado = mysqli_query($Con,$consulta);
+  $filas = mysqli_num_rows($Resultado);
+  
+	if ($filas > 0)
+	{
+		session_start();
+    $_SESSION['usuario'] = $usuario;
     header('Location: Home.php');
+	}
+	else
+	{
+    $Resultado = 'show';
   }
-  else
-  {
-    $res = 'show';
-  }
+  mysqli_close($Con);
 }
 ?>
 
