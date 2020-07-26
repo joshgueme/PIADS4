@@ -1,3 +1,27 @@
+<?php
+#region Variable de sesion
+include("Conexion.php");
+$con = conectar();
+session_start();
+$varsesion = $_SESSION['usuario'];
+$res = mysqli_query($con,"call sp_sesion ('$varsesion');");
+$rol = mysqli_num_rows($res);
+if($varsesion == null || $varsesion = ""){
+  header("location:Login.php");
+}
+if($rol == '1'){
+  $activo = null; 
+}
+else{
+  $activo = "disabled";
+}
+#endregion Variable de sesion
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,14 +55,23 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="ConsultaRenta.php" aria-disabled="true">Renta</a>
-          </li>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="Venta.php" aria-disabled="true">Venta</a>
-          </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Usuarios.php" aria-disabled="true">Usuarios</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link <?php echo $activo?>"  href="Usuarios.php" aria-disabled="true">Usuarios</a>
+            </li>
+
           </ul>
+
+          <form class="form-inline my-2 my-lg-0">
+            <div class="col px-md-5">
+              <div class="p-3">
+              <a class="nav-link" aria-disabled="true"><?php echo "Bienvenido: " . $_SESSION['usuario'] ?></a>
+              </div>
+            </div>
+          </form>
 
           <form class="form-inline my-2 my-lg-0">
             <div class="col px-md-5">
@@ -48,7 +81,7 @@
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
                       <a class="dropdown-item" href="CambiarContrasena.php">Cambiar Contraseña</a>
-                      <a class="dropdown-item" href="Login.php">Cerrar Sesión</a>
+                      <a class="dropdown-item" href="CerrarSesion.php">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
