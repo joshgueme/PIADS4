@@ -12,15 +12,14 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>    
-    <!--#endregion NavBar-->
+    <!--#region NavBar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="Home.html">
-        <img src="Imagenes/MtyRent.png" width="30" height="30" alt="" loading="lazy">
+        <img src="Imagenes/MtyRent.png" width="30" height="30" loading="lazy">
         Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -28,10 +27,10 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="Clientes.html" aria-disabled="true">Clientes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="ConsultaRenta.html" aria-disabled="true">Renta</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="ConsultaRenta.html" aria-disabled="true">Renta</a>
+        </li>
             <li class="nav-item">
               <a class="nav-link" href="Venta.html" aria-disabled="true">Venta</a>
           </li>
@@ -39,7 +38,6 @@
               <a class="nav-link" href="Usuarios.html" aria-disabled="true">Usuarios</a>
             </li>
           </ul>
-
           <form class="form-inline my-2 my-lg-0">
             <div class="col px-md-5">
               <div class="p-3">
@@ -47,15 +45,55 @@
                   Perfil
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
-                      <a class="dropdown-item" href="CambiarContrasena.html">Cambiar Contraseña</a>
+                      <a class="dropdown-item active" href="CambiarContrasena.html">Cambiar Contraseña</a>
                       <a class="dropdown-item" href="Login.html">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
           </form>
+        </div>  
+    </nav>
+    <!--#endregion NavBar-->
+
+    <!--#region Form-->
+        <div class="container">
+                <form class="form-group" action="#" method="POST">
+                        <div class="card">
+                            <div class="card-header">
+                              Cambiar Contraseña
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                  <div class="col-sm">
+                                      <label for="txtContraAct">Contraseña actual</label>
+                                      <input type="password" class="form-control" name="txtContraAct"/>
+                                  </div>                             
+                              </div>
+                              <br/>
+                              <div class="row">
+                                    <div class="col-sm">
+                                        <label for="txtNContra">Nueva Contraseña</label>
+                                        <input type="password" class="form-control" name="txtNContra"/>
+                                    </div>  
+                                    <div class="col-sm">
+                                        <label for="txtNcContra">Confirmar contraseña</label>
+                                        <input type="password" class="form-control" name="txtNcContra"/>
+                                    </div>  
+                              </div>
+                              <br/>
+                              <div class="row">
+                                <div class="col-sm">
+                                  <button type="submit" class="btn btn-primary btn-lg" name="btnCambiar">Cambiar</button>
+                                </div>
+                                <div class="col-sm">
+                                  <button type="submit" class="btn btn-outline-warning btn-lg" name="btnLimpiar">Limpiar</button>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                    </form>
+
         </div>
-      </nav>
-      <!--#endregion NavBar-->
-<br/>
+    <!--#endregion Form-->
 </body>
 </html>
