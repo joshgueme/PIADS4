@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>    
-    <!--#endregion NavBar-->
+    <!--#region NavBar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="Home.html">
         <img src="Imagenes/MtyRent.png" width="30" height="30" loading="lazy">
@@ -24,11 +24,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Automovil
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item active" href="ConsultaAuto.html">Consulta</a>
+                <a class="dropdown-item" href="ConsultaAuto.html">Consulta</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Registro</a>
               </div>
@@ -56,69 +56,51 @@
                   Perfil
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
-                      <a class="dropdown-item" href="CambiarContrasena.html">Cambiar Contraseña</a>
+                      <a class="dropdown-item active" href="CambiarContrasena.html">Cambiar Contraseña</a>
                       <a class="dropdown-item" href="Login.html">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
           </form>
-        </div>
+        </div>  
     </nav>
     <!--#endregion NavBar-->
-<br/>
-        <!--#endregion Controles-->
-        <div class="container">
-          <form class="form-group" action="#" method="POST">
-              <div class="card">
-                  <div class="card-header">
-                    Consulta Autos
-                  </div>
-                  <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm">
-                            <label for="cmbMarca">Marca</label>
-                            <select class="form-control" name="cmbMarca">
-                                <option>Ford</option>
-                                <option>Volkswagen</option>
-                                <option>Nissan</option>
-                              </select>
-                        </div>
-                        <div class="col-sm">
-                            <label for="cmbModelo">Modelo</label>
-                            <select class="form-control" name="cmbModelo">
-                                <option>Modelo 1</option>
-                                <option>Modelo 2</option>
-                                <option>Modelo 3</option>
-                              </select>
-                        </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                            <div class="col-sm">
-                                <label for="cmbVersion">Version</label>
-                                <select class="form-control" name="cmbVersion">
-                                    <option>Estandar</option>
-                                    <option>Deportiva</option>
-                                    <option>Lujo</option>
-                                  </select>
-                            </div>
-                            <div class="col-sm">
-                                <br/>
-                                &nbsp; &nbsp; &nbsp;<input type="checkbox" class="form-check-input" name="chkDisp"/>
-                                <label class="form-check-label" for="chkDisp">Disponible</label>
-                            </div>
-                    </div>
-                    </div>
-                    <br/>
-                    <center>
-                    <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
-                    </center>
-                    <br/>
-                  </div>
-          </form>
-        </div>
-        <!--#endregion Controles-->
-      </div>
 
+    <!--#region Form-->
+        <div class="container">
+                <form class="form-group" action="#" method="POST">
+                        <div class="card">
+                            <div class="card-header">
+                              Cambiar Contraseña
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                  <div class="col-sm">
+                                      <label for="txtContraAct">Contraseña actual</label>
+                                      <input type="password" class="form-control" name="txtContraAct"/>
+                                  </div>                             
+                              </div>
+                              <br/>
+                              <div class="row">
+                                    <div class="col-sm">
+                                        <label for="txtNContra">Nueva Contraseña</label>
+                                        <input type="password" class="form-control" name="txtNContra"/>
+                                    </div>  
+                                    <div class="col-sm">
+                                        <label for="txtNcContra">Confirmar contraseña</label>
+                                        <input type="password" class="form-control" name="txtNcContra"/>
+                                    </div>  
+                              </div>
+                              </div>
+                              <br/>
+                              <center>
+                              <button type="submit" class="btn btn-primary btn-lg">Cambiar</button>
+                              </center>
+                              <br/>
+                            </div>
+                    </form>
+
+        </div>
+    <!--#endregion Form-->
 </body>
 </html>
