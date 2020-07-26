@@ -1,3 +1,27 @@
+<?php
+include("Conexion.php");
+$res =  null;
+$query = null;
+if(isset($_POST["btnEntrar"]))
+{
+  $con = conectar();
+  $usuario = $_POST["txtCuenta"];
+  $contra = $_POST["txtContra"];
+  $query = "select 1 from Usuario where usuario = '" . $usuario . "' and Contraseña = '" . $contra."'";
+  $res = mysqli_query($con,$query);
+  echo $res;
+  if($res == true)
+  {
+    header('Location: Home.php');
+  }
+  else
+  {
+    $res = 'show';
+  }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -45,12 +69,12 @@
 
    <!-- #region Controles--> 
    <div class="container">
-    <form action="Home.html" method="POST">
+    <form action="Login.php" method="POST">
       <div class="row">
         <div class="col-sm"></div>
         <div class="col-sm">
           <label for="txtCuenta">Cuenta</label>
-          <input type="email" class="form-control" id="txtCuenta" aria-describedby="emailHelp">
+          <input type="text" class="form-control" name="txtCuenta">
         </div>
         <div class="col-sm"></div>
       </div>
@@ -58,7 +82,7 @@
         <div class="col-sm"></div>
         <div class="col-sm">
         <label for="txtContra">Contraseña</label>
-        <input type="password" class="form-control" id="txtContra">
+        <input type="password" class="form-control" name="txtContra">
         </div>
         <div class="col-sm"></div>
       </div>
@@ -67,11 +91,19 @@
         <div class="col-sm"></div>
         <center>
           <div class="col-sm">
-            <button type="submit" class="btn btn-primary">Entrar</button>
+            <button type="submit" class="btn btn-primary" name="btnEntrar">Entrar</button>
           </div>
         </center>
         <div class="col-sm"></div>
       </div>
+      <br/>
+      <div class="alert alert-danger alert-dismissible fade <?php echo $res?>" role="alert">
+          Usuario/Contraseña incorrectos.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+
     </form>
   </div>
   <!-- #endregion Controles-->
