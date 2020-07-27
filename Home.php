@@ -2,23 +2,25 @@
 #region Variable de sesion
 include("Conexion.php");
 $con = conectar();
+
 session_start();
 $varsesion = $_SESSION['usuario'];
-$res = mysqli_query($con,"call sp_sesion ('$varsesion');");
-$rol = mysqli_num_rows($res);
-if($varsesion == null || $varsesion = ""){
-  header("location:Login.php");
+
+$query = "call sp_sesion ('$varsesion');";
+$res = mysqli_query($con,$query);
+
+if (mysqli_num_rows($res) > 0)
+{
+  $reg = mysqli_fetch_array($res);
 }
-if($rol == '1'){
+if($reg['IdRol'] == '1'){
   $activo = null; 
 }
-else{
+else if($reg['IdRol'] == '2')
+{
   $activo = "disabled";
 }
 #endregion Variable de sesion
-
-
-
 ?>
 
 
