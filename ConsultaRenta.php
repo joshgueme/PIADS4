@@ -2,25 +2,63 @@
 #region Variable de sesion
 include("Conexion.php");
 $con = conectar();
-
 session_start();
-$varsesion = $_SESSION['usuario'];
-
-$query = "call sp_sesion ('$varsesion');";
-$res = mysqli_query($con,$query);
-
-if (mysqli_num_rows($res) > 0)
+if(isset($_POST["btnRegistrar"]))
 {
-  $reg = mysqli_fetch_array($res);
+
+  $Idrenta=($_POST["txtIdRenta"]);
+  $IdUsuario=($_POST["txtUsuario"]);
+  $IdCliente=($_POST["txtCliente"]);
+  $NoSerie=($_POST["txtNoSerie"]);
+  $FecInicio=  date("Y-m-d",strtotime($_POST["cmbFechaIni"]));                    
+  $FecFinal= date("Y-m-d",strtotime($_POST["cmbFechaFin"]));  
+  $FecSalida= date("Y-m-d",strtotime($_POST["cmbSalida"])); 
+  $FecEntrada=date("Y-m-d",strtotime($_POST["cmbEntrada"])); 
+  $Observaciones=" ";
+  $IdEstatusRenta=($_POST["txtEstatus"]);
+
+
+  $query = "call sp_rentas('nuevo',$Idrenta,$IdUsuario,$IdCliente,$NoSerie,'$FecInicio','$FecFinal','$FecSalida','$FecEntrada','$Observaciones',$IdEstatusRenta);"; 
+  if(mysqli_query($con, $query))
+  {
+    echo "Registro agregado correctamente";
+  } 
 }
-if($reg['IdRol'] == '1'){
-  $activo = null; 
-}
-else if($reg['IdRol'] == '2')
+if(isset($_POST["btnModificar"]))
 {
-  $activo = "disabled";
+
+  $Idrenta=($_POST["txtIdRenta"]);
+  $IdUsuario=($_POST["txtUsuario"]);
+  $IdCliente=($_POST["txtCliente"]);
+  $NoSerie=($_POST["txtNoSerie"]);
+  $FecInicio=  date("Y-m-d",strtotime($_POST["cmbFechaIni"]));                    
+  $FecFinal= date("Y-m-d",strtotime($_POST["cmbFechaFin"]));  
+  $FecSalida= date("Y-m-d",strtotime($_POST["cmbSalida"])); 
+  $FecEntrada=date("Y-m-d",strtotime($_POST["cmbEntrada"])); 
+  $Observaciones=" ";
+  $IdEstatusRenta=($_POST["txtEstatus"]);
+
+
+  $query = "call sp_rentas('editar',$Idrenta,$IdUsuario,$IdCliente,$NoSerie,'$FecInicio','$FecFinal','$FecSalida','$FecEntrada','$Observaciones',$IdEstatusRenta);"; 
+  if(mysqli_query($con, $query))
+  {
+    echo "Registro modificado correctamente";
+  } 
 }
-#endregion Variable de sesion
+
+
+if(isset($_POST["btnCancelar"]))
+{
+
+$idrenta=($_POST["txtIdRenta"]);
+  $query = "call sp_rentas('borrar',$idrenta,1,1,1,'2020/02/02','2020/02/02','2020/02/02','2020/02/02','',1); "; 
+  if(mysqli_query($con, $query))
+  {
+    echo "Registro eliminado correctamente";
+  } 
+}
+
+
 ?>
 
 
@@ -40,13 +78,12 @@ else if($reg['IdRol'] == '2')
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>    
     <!--#region NavBar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="Home.php">
+        <a class="navbar-brand" href="Home.html">
         <img src="Imagenes/MtyRent.png" width="30" height="30" loading="lazy">
         Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -61,20 +98,10 @@ else if($reg['IdRol'] == '2')
             <li class="nav-item">
               <a class="nav-link" href="Venta.php" aria-disabled="true">Venta</a>
           </li>
-          <li class="nav-item">
-              <a class="nav-link <?php echo $activo?>"  href="Usuarios.php" aria-disabled="true">Usuarios</a>
+            <li class="nav-item">
+              <a class="nav-link" href="Usuarios.php" aria-disabled="true">Usuarios</a>
             </li>
-
           </ul>
-
-          <form class="form-inline my-2 my-lg-0">
-            <div class="col px-md-5">
-              <div class="p-3">
-              <a class="nav-link" aria-disabled="true"><?php echo "Bienvenido: " . $_SESSION['usuario'] ?></a>
-              </div>
-            </div>
-          </form>
-          
           <form class="form-inline my-2 my-lg-0">
             <div class="col px-md-5">
               <div class="p-3">
@@ -82,8 +109,8 @@ else if($reg['IdRol'] == '2')
                   Perfil
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
-                      <a class="dropdown-item" href="CambiarContrasena.php">Cambiar Contraseña</a>
-                      <a class="dropdown-item" href="CerrarSesion.php">Cerrar Sesión</a>
+                      <a class="dropdown-item" href="CambiarContrasena.html">Cambiar Contraseña</a>
+                      <a class="dropdown-item" href="Login.html">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
@@ -101,63 +128,57 @@ else if($reg['IdRol'] == '2')
                             </div>
                             <div class="card-body">
                               <div class="row">
-                                  <div class="col-sm">
-                                      <label for="cmbUsuario">Vendedor</label>
-                                      <select class="form-control" name="cmbMarca">
-                                          <option>Vend 1</option>
-                                          <option>Vend 2</option>
-                                          <option>Vend 3</option>
-                                        </select>
-                                  </div>
-                                  <div class="col-sm">
-                                      <label for="cmbCliente">Cliente</label>
-                                      <select class="form-control" name="cmbModelo">
-                                          <option>Cte 1</option>
-                                          <option>Cte 2</option>
-                                          <option>Cte 3</option>
-                                        </select>
-                                  </div>
+                                <div class="col-sm">
+                                  <label class="col-form-label" for="txtIdRenta">ID</label>
+                                  <input class="form-control" type="text" name="txtIdRenta"/>
+                                </div>
                               </div>
-                              <br/>
-                              <div class="row">
-                                      <div class="col-sm">
-                                          <label for="cmbNoSerie">Numero de Serie</label>
-                                          <select class="form-control" name="cmbModelo">
-                                          <option>ASDFASD1651681</option>
-                                          <option>RGSFGHS6151818</option>
-                                          <option>GWEGRWE5165168</option>
-                                        </select>
-                                      </div>
-                                        <div class="col-sm">
-                                          <label for="cmbEstatus">Estatus</label>
-                                          <select class="form-control" name="cmbEstatus">
-                                              <option>Activo</option>
-                                              <option>Concluido</option>
-                                              <option>Cancelado</option>
-                                            </select>
-                                        </div>
-                              </div>
-                              <br/>
-                              <div class="row">
-                                  <div class="col-sm">
-                                    <label for="cmbFechaIni">Fecha Inicio</label>
-                                    <input type="date" class="form-control"/>
-                                  </div>
-                                  <div class="col-sm">
-                                    <label for="cmbFechaFin">Fecha Fin</label>
-                                    <input type="date" class="form-control"/>
-                                  </div>
-                              </div>
-                              <br/>
                               <div class="row">
                                 <div class="col-sm">
-                                  <label for="cmbSalida">Fecha Salida</label>
-                                  <input type="date" class="form-control"/>
+                                  <label class="col-form-label" for="txtUsuario">Usuario</label>
+                                  <input class="form-control" type="text" name="txtUsuario"/>
+                                </div>
+                              </div>
+                            <div class="row">
+                              <div class="col-sm">
+                                <label class="col-form-label" for="txtCliente">Cliente</label>
+                                <input class="form-control" type="text" name="txtCliente"/>
+                              </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                              <div class="col-sm">
+                                <label class="col-form-label" for="txtNoSerie">No Serie</label>
+                                <input class="form-control" type="text" name="txtNoSerie"/>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm">
+                                <label class="col-form-label" for="txtEstatus">Estatus</label>
+                                <input class="form-control" type="text" name="txtEstatus"/>
+                              </div>      
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm">
+                                  <label class="form-label" for="cmbFechaIni">Fecha Inicio</label>
+                                  <input class="form-control" type="date" name="cmbFechaIni"/>   
                                 </div>
                                 <div class="col-sm">
-                                  <label for="cmbEntrada">Fecha Entrada</label>
-                                  <input type="date" class="form-control"/>
+                                  <label class="form-label" for="cmbFechaFin">Fecha Fin</label>
+                                  <input class="form-control" type="date" name="cmbFechaFin"/>
                                 </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                              <div class="col-sm">
+                                <label class="form-label" for="cmbSalida">Fecha Salida</label>
+                                <input class="form-control" type="date" name="cmbSalida"/>
+                              </div>
+                              <div class="col-sm">
+                                <label class="form-label" for="cmbEntrada">Fecha Entrada</label>
+                                <input class="form-control" type="date" name="cmbEntrada"/>
+                              </div>
                             </div>
                             <br/>
                             <div class="row">
@@ -180,7 +201,6 @@ else if($reg['IdRol'] == '2')
                           </div>
                         </div>
                     </form>
-
         </div>
     <!--#endregion Form-->
 </body>

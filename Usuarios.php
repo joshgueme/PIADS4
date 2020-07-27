@@ -273,26 +273,25 @@ if(isset($_POST["btnLimpiar"]))
                     </div>
                     <br/>
                     <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                      <tr>
-                      <td>Id Usuario</td>
-                      <td>Nombre</td>
-                      <td>Apellido Paterno</td>
-                      <td>Apellido Materno</td>
-                      <td>Usuario</td>
-                      <td>Contrasena</td>
-                      <td>IdRol</td>
-                      <td>Rol</td>
-                      <td>Fecha Alta</td>
-                      <td>IdEstatus</td>
-                      <td>Estatus</td>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <?php echo $tabla;?>
-                      </tbody>
-
+                      <table class="table">
+                        <thead>
+                        <tr>
+                        <td>Id Usuario</td>
+                        <td>Nombre</td>
+                        <td>Apellido Paterno</td>
+                        <td>Apellido Materno</td>
+                        <td>Usuario</td>
+                        <td>Contrasena</td>
+                        <td>IdRol</td>
+                        <td>Rol</td>
+                        <td>Fecha Alta</td>
+                        <td>IdEstatus</td>
+                        <td>Estatus</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php echo $tabla;?>
+                        </tbody>
                       </div>
                   </div>
                   </div>

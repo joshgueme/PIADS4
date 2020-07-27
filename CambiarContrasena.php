@@ -1,29 +1,17 @@
 <?php
-#region Variable de sesion
 include("Conexion.php");
-$con = conectar();
-
 session_start();
-$varsesion = $_SESSION['usuario'];
-
-$query = "call sp_sesion ('$varsesion');";
-$res = mysqli_query($con,$query);
-
-if (mysqli_num_rows($res) > 0)
+if(isset($_POST["btnCambiar"]))
 {
-  $reg = mysqli_fetch_array($res);
+  $Con = conectar();
+$Contrasena = $_POST['txtNContra'];
+$IdContraseña = $_POST['txtContraseña'];
+$consulta = "UPDATE usuario SET Contrasena = '$Contrasena' WHERE Contrasena = '$IdContraseña' ";
+  $Resultad = mysqli_query($Con,$consulta);
+  
+
 }
-if($reg['IdRol'] == '1'){
-  $activo = null; 
-}
-else if($reg['IdRol'] == '2')
-{
-  $activo = "disabled";
-}
-#endregion Variable de sesion
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -60,20 +48,10 @@ else if($reg['IdRol'] == '2')
             <li class="nav-item">
               <a class="nav-link" href="Venta.php" aria-disabled="true">Venta</a>
           </li>
-          <li class="nav-item">
-              <a class="nav-link <?php echo $activo?>"  href="Usuarios.php" aria-disabled="true">Usuarios</a>
+            <li class="nav-item">
+              <a class="nav-link" href="Usuarios.php" aria-disabled="true">Usuarios</a>
             </li>
-
           </ul>
-
-          <form class="form-inline my-2 my-lg-0">
-            <div class="col px-md-5">
-              <div class="p-3">
-              <a class="nav-link" aria-disabled="true"><?php echo "Bienvenido: " . $_SESSION['usuario'] ?></a>
-              </div>
-            </div>
-          </form>
-
           <form class="form-inline my-2 my-lg-0">
             <div class="col px-md-5">
               <div class="p-3">
@@ -81,8 +59,8 @@ else if($reg['IdRol'] == '2')
                   Perfil
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
-                      <a class="dropdown-item active" href="CambiarContrasena.html">Cambiar Contraseña</a>
-                      <a class="dropdown-item" href="CerrarSesion.php">Cerrar Sesión</a>
+                      <a class="dropdown-item active" href="CambiarContrasena.php">Cambiar Contraseña</a>
+                      <a class="dropdown-item" href="Login.php">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
@@ -101,8 +79,8 @@ else if($reg['IdRol'] == '2')
                             <div class="card-body">
                               <div class="row">
                                   <div class="col-sm">
-                                      <label for="txtContraAct">Contraseña actual</label>
-                                      <input type="password" class="form-control" name="txtContraAct"/>
+                                      <label for="txtContraseña">Contraseña</label>
+                                      <input type="text" class="form-control" name="txtContraseña"/>
                                   </div>                             
                               </div>
                               <br/>
@@ -111,10 +89,7 @@ else if($reg['IdRol'] == '2')
                                         <label for="txtNContra">Nueva Contraseña</label>
                                         <input type="password" class="form-control" name="txtNContra"/>
                                     </div>  
-                                    <div class="col-sm">
-                                        <label for="txtNcContra">Confirmar contraseña</label>
-                                        <input type="password" class="form-control" name="txtNcContra"/>
-                                    </div>  
+                                     
                               </div>
                               <br/>
                               <div class="row">

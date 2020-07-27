@@ -2,6 +2,11 @@
 #region Variable de sesion
 include("Conexion.php");
 $con = conectar();
+$tabla = "<tr><td>Sin Registros</td></tr>";
+$cmbrenta = null;
+$cmbusuario = null;
+$cmbconcepto = null;
+
 
 session_start();
 $varsesion = $_SESSION['usuario'];
@@ -20,7 +25,143 @@ else if($reg['IdRol'] == '2')
 {
   $activo = "disabled";
 }
+mysqli_close($con);
+$con = null;
 #endregion Variable de sesion
+
+#region combos
+  //renta
+  $con = conectar();
+	$query = "select IdRenta from renta;";
+	$res = mysqli_query($con, $query);
+	while ($reg = mysqli_fetch_array($res)) 
+	 {
+    $cmbrenta = $cmbrenta . '<option value = ' . $reg['IdRenta'] . '>'. 
+    $reg['IdRenta'] . 
+    '</option>';
+   }
+   mysqli_close($con);
+   $con = null;
+
+   //usuario
+   $con = conectar();
+   $query = "select IdUsuario, Usuario from usuario;";
+   $res = mysqli_query($con, $query);
+   while ($reg = mysqli_fetch_array($res)) 
+    {
+     $cmbusuario = $cmbusuario . '<option value = ' . $reg['IdUsuario'] . '>'. 
+     $reg['Usuario'] . 
+     '</option>';
+    }
+    mysqli_close($con);
+    $con = null;
+
+    //concepto
+    $con = conectar();
+    $query = "select IdConcepto, DescConcepto, Monto from concepto;";
+    $res = mysqli_query($con, $query);
+    while ($reg = mysqli_fetch_array($res)) 
+     {
+      $cmbconcepto = $cmbconcepto . '<option value = ' . $reg['IdConcepto'] . '>'. 
+      $reg['DescConcepto'] . 
+      '</option>';
+     }
+     mysqli_close($con);
+     $con = null;
+
+
+#endregion combos
+
+#region Funcion ventana
+$opc = "";
+if(isset($_POST["btnBuscar"]))
+{
+  $con = conectar();
+  $opc = "buscar";
+  $IdVenta = $_POST['txtNoVenta'];
+  if($IdVenta == null)
+  {
+    $IdVenta = 0;
+  }
+  $IdRenta = 0;
+  $IdUsuario = 0;
+  $Iva = 0;
+  $FechaVenta = null;
+  $Estatus = 0;
+  $IdVentaDetalle = 0;
+  $IdConcepto = 0;
+  $Monto = 0;
+	$query = "call sp_venta('$opc',$IdVenta,$IdRenta,$IdUsuario,$Iva,'$FechaVenta',$Estatus,$IdVentaDetalle,$IdConcepto,$Monto);"; 
+  
+  $Resultado = mysqli_query($con,$query);
+  $reg = mysqli_fetch_array($Resultado); 
+	if (mysqli_num_rows($Resultado) < 1)
+	{
+    $tabla = "<tr><td>Sin Registros</td></tr>";
+  }
+  else
+  {
+    $tabla = null;
+    for ($i=0; $i <= $reg; $i++)
+          { 
+            $tabla = $tabla . '
+            <tr>
+            <td>'.$reg['Idusuario'].'</td>
+            <td>'.$reg['Nombre'].'</td>
+            <td>'.$reg['APaterno'].'</td>
+            <td>'.$reg['AMaterno'].'</td>
+            <td>'.$reg['Usuario'].'</td>
+            <td>'.$reg['Contrasena'].'</td>
+            <td>'.$reg['IdRol'].'</td>
+            <td>'.$reg['Rol'].'</td>
+            <td>'.$reg['FecAlta'].'</td>
+            <td>'.$reg['IdEstatus'].'</td>
+            <td>'.$reg['Estatus'].'</td>
+            </tr>
+            ';
+            $reg = mysqli_fetch_array($Resultado); 
+        }
+  }
+  //mysqli_free_result($res);
+  mysqli_close($con);
+  $con = null;
+}
+
+if(isset($_POST["btnRegistrar"]))
+{
+  $opc = "buscar";
+  $IdVenta = $_POST['txtNoVenta'];
+  $IdRenta = 0;
+  $IdUsuario = 0;
+  $Iva = 0;
+  $FechaVenta = null;
+  $Estatus = 0;
+  $IdVentaDetalle = 0;
+  $IdConcepto = 0;
+  $Monto = 0;
+}
+
+if(isset($_POST["btnPagar"]))
+{
+  $opc = "buscar";
+  $IdVenta = $_POST['txtNoVenta'];
+  $IdRenta = 0;
+  $IdUsuario = 0;
+  $Iva = 0;
+  $FechaVenta = null;
+  $Estatus = 0;
+  $IdVentaDetalle = 0;
+  $IdConcepto = 0;
+  $Monto = 0;
+}
+
+if(isset($_POST["btnLimpiar"]))
+{
+
+}
+
+#endregion Funcion ventana
+
 ?>
 
 
@@ -93,27 +234,32 @@ else if($reg['IdRol'] == '2')
 <br/>
         <!--#endregion Controles-->
         <div class="container">
-          <form class="form-group" action="#" method="POST">
+          <form class="form-group" action="Venta.php" method="POST">
                 <div class="card">
                   <div class="card-header">
                     Consulta Ventas
                   </div>
-                  <div class="card-body">
+                  <div class="card-body"> 
                     <div class="row">
+                    <div class="col-sm">
+                    <label class="col-form-label" for="txtNoVenta">No. Venta</label>
+                    <input class="form-control" type="number" name="txtNoVenta"/>
+                    </div>
+                    <div class="col-sm">
+                    </div>    
+                  </div>
+                  <br/>
+                  <div class="row">
                         <div class="col-sm">
                             <label for="cmbRenta">Renta</label>
                             <select class="form-control" name="cmbRenta">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
+                            <?php echo $cmbrenta?>
                               </select>
                         </div>
                         <div class="col-sm">
                             <label for="cmbUsuario">Usuario</label>
                             <select class="form-control" name="cmbUsuario">
-                                <option>Usuario 1</option>
-                                <option>Usuario 2</option>
-                                <option>Usuario 3</option>
+                              <?php echo $cmbusuario?>
                               </select>
                         </div>
                     </div>
@@ -122,28 +268,14 @@ else if($reg['IdRol'] == '2')
                             <div class="col-sm">
                                 <label for="cmbConcepto">Concepto</label>
                                 <select class="form-control" name="cmbConcepto">
-                                    <option>Renta Regular</option>
-                                    <option>Retardo por dia</option>
-                                    <option>Daños al vehiculo</option>
+                                <?php echo $cmbconcepto?>
                                   </select>
                             </div>
                             <div class="col-sm">
-                              <label class="form-label" for="txtMonto">Monto</label>
-                                <input class="form-control" type="number" name="txtMonto"/>
+                              <br/>
+                              &nbsp; &nbsp; &nbsp;<input type="checkbox" class="form-check-input" name="chkAct"/>
+                              <label class="form-check-label" for="chkAct">Activa</label>
                             </div>
-                    </div>
-                    <br/>
-                    <div class="form-group">
-                        <label for="txtDetalle">Detalle de venta</label>
-                        <!--En la caracteristica rows puedes poner un valor de php para declarar los renglones.-->
-                        <textarea class="form-control" name="txtDetalle" rows="10"></textarea>
-                      </div>
-                    <div class="row">
-                      <div class="col-sm">
-                        <br/>
-                        &nbsp; &nbsp; &nbsp;<input type="checkbox" class="form-check-input" name="chkAct"/>
-                        <label class="form-check-label" for="chkAct">Activa</label>
-                      </div>
                     </div>
                       <br/>
                     <div class="row">
@@ -154,15 +286,31 @@ else if($reg['IdRol'] == '2')
                         <button type="submit" class="btn btn-success" name="btnRegistrar">Registrar</button>
                       </div>
                       <div class="col-sm">
-                        <button type="submit" class="btn btn-warning" name="btnModificar">Modificar</button>
-                      </div>
-                      <div class="col-sm">
-                        <button type="submit" class="btn btn-danger" name="btnBaja">Baja</button>
+                        <button type="submit" class="btn btn-warning" name="btnPagar">Pagar</button>
                       </div>
                       <div class="col-sm">
                         <button type="submit" class="btn btn-outline-warning" name="btnLimpiar">Limpiar</button>
                       </div>
                     </div>
+<br/>
+                    <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                      <td>Id Venta</td>
+                      <td>Id Renta</td>
+                      <td>Usuario</td>
+                      <td>Concepto</td>
+                      <td>Monto</td>
+                      <td>Activo</td>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <?php echo $tabla;?>
+                      </tbody>
+
+                      </div>
+
                 </div>
                 </div>
             </form>
