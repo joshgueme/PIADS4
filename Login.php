@@ -100,7 +100,7 @@ if(isset($_POST["btnEntrar"]))
         <div class="col-sm"></div>
       </div>
       <br/>
-      <div class="alert alert-danger alert-dismissible fade <?php echo $res?>" role="alert">
+      <div class="alert alert-danger alert-dismissible fade <?php echo $Resultado?>" role="alert">
           Usuario/Contraseña incorrectos.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>

@@ -1,3 +1,130 @@
+<?php
+#region Variable de sesion
+include("Conexion.php");
+session_start();
+$tabla = "<tr><td>Sin Registros</td></tr>";
+$con = conectar();
+$varsesion = $_SESSION['usuario'];
+$query = "call sp_sesion ('$varsesion');";
+$res = mysqli_query($con,$query);
+if (mysqli_num_rows($res) > 0)
+{
+  $reg = mysqli_fetch_array($res);
+}
+if($reg['IdRol'] == '1'){
+  $activo = null; 
+}
+else if($reg['IdRol'] == '2')
+{
+  $activo = "disabled";
+}
+echo $activo;
+mysqli_close($con);
+$con = null;
+#endregion Variable de sesion
+
+#region Funcion ventana
+$opc = "";
+if(isset($_POST["btnBuscar"]))
+{
+  $con = conectar();
+  $opc = "buscar";
+  $IdUsuario = $_POST['txtIdUsuario'];
+  if($IdUsuario == null)
+  {
+    $IdUsuario = 0;
+  }
+  $Nombre = 0;
+  $ApPat = 0;
+  $ApMat = 0;
+  $Usuario = 0;
+  $Contra = 0;
+  $Rol = 0;
+  $FechaAlta = 0;
+  $Estatus = 0;
+	$query = "call sp_usuario('$opc',$IdUsuario,'$Nombre','$ApPat','$ApMat','$Usuario','$Contra',$Rol,'$FechaAlta',$Estatus);"; 
+  $Resultado = mysqli_query($con,$query);
+  $reg = mysqli_fetch_array($Resultado); 
+	if (mysqli_num_rows($Resultado) < 1)
+	{
+    $tabla = "<tr><td>Sin Registros</td></tr>";
+  }
+  else
+  {
+    $tabla = null;
+    for ($i=0; $i <= $reg; $i++)
+          { 
+            $tabla = $tabla . '
+            <tr>
+            <td>'.$reg['Idusuario'].'</td>
+            <td>'.$reg['Nombre'].'</td>
+            <td>'.$reg['APaterno'].'</td>
+            <td>'.$reg['AMaterno'].'</td>
+            <td>'.$reg['Usuario'].'</td>
+            <td>'.$reg['Contrasena'].'</td>
+            <td>'.$reg['IdRol'].'</td>
+            <td>'.$reg['Rol'].'</td>
+            <td>'.$reg['FecAlta'].'</td>
+            <td>'.$reg['IdEstatus'].'</td>
+            <td>'.$reg['Estatus'].'</td>
+            </tr>
+            ';
+            $reg = mysqli_fetch_array($Resultado); 
+        }
+  }
+  //mysqli_free_result($res);
+  mysqli_close($con);
+  $con = null;
+}
+
+if(isset($_POST["btnRegistrar"]))
+{
+  $IdUsuario = $_POST['txtIdUsuario'];
+  $Nombre = $_POST["txtNombre"];
+  $ApPat = $_POST["txtApPat"];
+  $ApMat = $_POST["txtApMat"];
+  $Usuario = $_POST["txtUsuario"];
+  $Contra = $_POST["txtContra"];
+  $Rol = $_POST["cmbRol"];
+  $FechaAlta = $_POST["txtFechaAlta"];
+  $Estatus = $_POST["chkAct"];
+}
+
+if(isset($_POST["btnModificar"]))
+{
+  $IdUsuario = $_POST['txtIdUsuario'];
+  $Nombre = $_POST["txtNombre"];
+  $ApPat = $_POST["txtApPat"];
+  $ApMat = $_POST["txtApMat"];
+  $Usuario = $_POST["txtUsuario"];
+  $Contra = $_POST["txtContra"];
+  $Rol = $_POST["cmbRol"];
+  $FechaAlta = $_POST["txtFechaAlta"];
+  $Estatus = $_POST["chkAct"];
+}
+
+if(isset($_POST["btnBaja"]))
+{
+  $IdUsuario = $_POST['txtIdUsuario'];
+  $Nombre = $_POST["txtNombre"];
+  $ApPat = $_POST["txtApPat"];
+  $ApMat = $_POST["txtApMat"];
+  $Usuario = $_POST["txtUsuario"];
+  $Contra = $_POST["txtContra"];
+  $Rol = $_POST["cmbRol"];
+  $FechaAlta = $_POST["txtFechaAlta"];
+  $Estatus = $_POST["chkAct"];
+}
+
+if(isset($_POST["btnLimpiar"]))
+{
+
+}
+
+#endregion Funcion ventana
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,7 +141,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>    
     <!--#endregion NavBar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="Home.html">
+        <a class="navbar-brand" href="Home.php">
         <img src="Imagenes/MtyRent.png" width="30" height="30" alt="" loading="lazy">
         Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,21 +151,29 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="ConsultaAuto.html" aria-disabled="true">Automovil</a>
+              <a class="nav-link" href="ConsultaAuto.php" aria-disabled="true">Automovil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Clientes.html" aria-disabled="true">Clientes</a>
+              <a class="nav-link" href="Clientes.php" aria-disabled="true">Clientes</a>
               <li class="nav-item">
-                <a class="nav-link" href="ConsultaRenta.html" aria-disabled="true">Renta</a>
+                <a class="nav-link" href="ConsultaRenta.php" aria-disabled="true">Renta</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Venta.html" aria-disabled="true">Venta</a>
+              <a class="nav-link" href="Venta.php" aria-disabled="true">Venta</a>
           </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="Usuarios.html" aria-disabled="true">Usuarios</a>
+          <li class="nav-item">
+              <a class="nav-link <?php echo $activo?>"  href="Usuarios.php" aria-disabled="true">Usuarios</a>
             </li>
+
           </ul>
 
+          <form class="form-inline my-2 my-lg-0">
+            <div class="col px-md-5">
+              <div class="p-3">
+              <a class="nav-link" aria-disabled="true"><?php echo "Bienvenido: " . $_SESSION['usuario']?></a>
+              </div>
+            </div>
+          </form>
           <form class="form-inline my-2 my-lg-0">
             <div class="col px-md-5">
               <div class="p-3">
@@ -46,8 +181,8 @@
                   Perfil
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
-                      <a class="dropdown-item" href="CambiarContrasena.html">Cambiar Contraseña</a>
-                      <a class="dropdown-item" href="Login.html">Cerrar Sesión</a>
+                      <a class="dropdown-item" href="CambiarContrasena.php">Cambiar Contraseña</a>
+                      <a class="dropdown-item" href="CerrarSesion.php">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
@@ -58,12 +193,20 @@
 <br/>
           <!--#endregion Controles-->
           <div class="container">
-            <form class="form-group" action="pagina.php" method="POST">
+            <form class="form-group" action="Usuarios.php" method="POST">
                 <div class="card">
                     <div class="card-header">
                       Usuarios
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm">
+                            <label class="col-form-label" for="txtIdUsuario">No. Usuario</label>
+                            <input class="form-control" type="number" name="txtIdUsuario"/>
+                          </div>
+                          <div class="col-sm">
+                          </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm">
                                 <label class="col-form-label" for="txtNombre">Nombre</label>
@@ -100,6 +243,16 @@
                                 <label class="form-check-label" for="chkAct">Activo</label>
                             </div>
                         </div>
+                        <div class="row">
+                          <div class="col-sm">
+                              <label class="col-form-label" for="txtUsuario">Usuario</label>
+                              <input class="form-control" type="text" name="txtUsuario"/>
+                          </div>
+                          <div class="col-sm">
+                              <label class="col-form-label" for="txtContra">Contraseña</label>
+                              <input class="form-control" type="password" name="txtContra"/>
+                          </div>
+                        </div>
                         <br/>
                     <div class="row">
                       <div class="col-sm">
@@ -118,6 +271,30 @@
                         <button type="submit" class="btn btn-outline-warning" name="btnLimpiar">Limpiar</button>
                       </div>
                     </div>
+                    <br/>
+                    <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                      <td>Id Usuario</td>
+                      <td>Nombre</td>
+                      <td>Apellido Paterno</td>
+                      <td>Apellido Materno</td>
+                      <td>Usuario</td>
+                      <td>Contrasena</td>
+                      <td>IdRol</td>
+                      <td>Rol</td>
+                      <td>Fecha Alta</td>
+                      <td>IdEstatus</td>
+                      <td>Estatus</td>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <?php echo $tabla;?>
+                      </tbody>
+
+                      </div>
+                  </div>
                   </div>
             </form>
           </div>
