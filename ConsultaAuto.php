@@ -2,13 +2,12 @@
 #region Variable de sesion
 include("Conexion.php");
 $con = conectar();
-
 session_start();
+$tabla = "<tr><td>Sin Registros</td></tr>";
+$con = conectar();
 $varsesion = $_SESSION['usuario'];
-
 $query = "call sp_sesion ('$varsesion');";
 $res = mysqli_query($con,$query);
-
 if (mysqli_num_rows($res) > 0)
 {
   $reg = mysqli_fetch_array($res);
@@ -20,8 +19,95 @@ else if($reg['IdRol'] == '2')
 {
   $activo = "disabled";
 }
+mysqli_close($con);
+$con = null;
 #endregion Variable de sesion
+
+if(isset($_POST["btnRegistrar"]))
+{
+
+  $varAIdAutomovil=($_POST["txtidauto"]);
+  $varAIdFabricante=($_POST["txtMarca"]);
+  $varAIdModelo=($_POST["txtModelo"]);
+  $varAIdVersion=($_POST["txtVersion"]);
+  $varAFecRegistro=($_POST["txtFechaReg"]);
+  $varAIdUsuario=($_POST["txtUsuario"]);
+  $varADNoSerie=($_POST["txtNoSerie"]);
+  $varADAno=($_POST["txtAno"]);
+  $varADIdColor=($_POST["txtColor"]);
+  $varADPlaca=($_POST["txtPlaca"]);
+  $varADObservaciones=($_POST["txtObservaciones"]);
+  $varADIdEstatusAutomovil=1;
+  $varACIdRegistro=1;
+  $varACIdConcepto=1;
+  $varACMonto=($_POST["txtPrecio"]);
+
+  $query = "call sp_automovil('nuevo',$varAIdAutomovil,$varAIdFabricante,$varAIdModelo,$varAIdVersion,'$varAFecRegistro',$varAIdUsuario,$varADAno,$varADIdColor,'$varADPlaca','$varADObservaciones',$varADIdEstatusAutomovil,$varACIdConcepto,$varACMonto,0,0);"; 
+  if(mysqli_query($con, $query))
+  {
+    echo "Registro agregado correctamente";
+  } 
+}
+
+if(isset($_POST["btnModificar"]))
+{
+
+  $varAIdAutomovil=($_POST["txtidauto"]);
+  $varAIdFabricante=($_POST["txtMarca"]);
+  $varAIdModelo=($_POST["txtModelo"]);
+  $varAIdVersion=($_POST["txtVersion"]);
+  $varAFecRegistro=($_POST["txtFechaReg"]);
+  $varAIdUsuario=($_POST["txtUsuario"]);
+  $varADNoSerie=($_POST["txtNoSerie"]);
+  $varADAno=($_POST["txtAno"]);
+  $varADIdColor=($_POST["txtColor"]);
+  $varADPlaca=($_POST["txtPlaca"]);
+  $varADObservaciones=($_POST["txtObservaciones"]);
+  $varADIdEstatusAutomovil=1;
+
+  $varACIdRegistro=1;
+  $varACIdConcepto=1;
+  $varACMonto=($_POST["txtPrecio"]);
+
+  $query = "call sp_automovil('editar',$varAIdAutomovil,$varAIdFabricante,$varAIdModelo,$varAIdVersion,'$varAFecRegistro',$varAIdUsuario,$varADAno,$varADIdColor,'$varADPlaca','$varADObservaciones',$varADIdEstatusAutomovil,$varACIdConcepto,$varACMonto,0,0);"; 
+   if(mysqli_query($con, $query))
+  {
+    echo "Registro modificado correctamente";
+  } 
+}
+
+if(isset($_POST["btnBaja"]))
+{
+
+  $varAIdAutomovil=($_POST["txtidauto"]);
+  $varAIdFabricante=($_POST["txtMarca"]);
+  $varAIdModelo=($_POST["txtModelo"]);
+  $varAIdVersion=($_POST["txtVersion"]);
+  $varAFecRegistro=($_POST["txtFechaReg"]);
+  $varAIdUsuario=($_POST["txtUsuario"]);
+  $varADNoSerie=($_POST["txtNoSerie"]);
+  $varADAno=($_POST["txtAno"]);
+  $varADIdColor=($_POST["txtColor"]);
+  $varADPlaca=($_POST["txtPlaca"]);
+  $varADObservaciones=($_POST["txtObservaciones"]);
+  $varADIdEstatusAutomovil=1;
+  $varACIdRegistro=1;
+  $varACIdConcepto=1;
+  $varACMonto=($_POST["txtPrecio"]);
+
+  $query = "call sp_automovil('borrar', $varAIdAutomovil, 1, 1, 1, '2023/02/02', 1, 2020, 1, 'aojkwfdnawok', 'hlas', 1, 1, 681.54, 9, 23 );"; 
+   if(mysqli_query($con, $query))
+  {
+    echo "Registro eliminado correctamente";
+  } 
+}
+
+
+
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -40,7 +126,7 @@ else if($reg['IdRol'] == '2')
     <!--#endregion NavBar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="Home.php">
-        <img src="Imagenes/MtyRent.png" width="30" height="30" loading="lazy">
+        <img src="Imagenes/MtyRent.png" width="30" height="30" alt="" loading="lazy">
         Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -48,15 +134,14 @@ else if($reg['IdRol'] == '2')
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="ConsultaAuto.php" aria-disabled="true">Automovil</a>
+            <li class="nav-item">
+              <a class="nav-link active" href="ConsultaAuto.php" aria-disabled="true">Automovil</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="Clientes.php" aria-disabled="true">Clientes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="ConsultaRenta.php" aria-disabled="true">Renta</a>
-        </li>
+              <li class="nav-item">
+                <a class="nav-link" href="ConsultaRenta.php" aria-disabled="true">Renta</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="Venta.php" aria-disabled="true">Venta</a>
           </li>
@@ -69,11 +154,10 @@ else if($reg['IdRol'] == '2')
           <form class="form-inline my-2 my-lg-0">
             <div class="col px-md-5">
               <div class="p-3">
-              <a class="nav-link" aria-disabled="true"><?php echo "Bienvenido: " . $_SESSION['usuario'] ?></a>
+              <a class="nav-link" aria-disabled="true"><?php echo "Bienvenido: " . $_SESSION['usuario']?></a>
               </div>
             </div>
           </form>
-          
           <form class="form-inline my-2 my-lg-0">
             <div class="col px-md-5">
               <div class="p-3">
@@ -81,14 +165,14 @@ else if($reg['IdRol'] == '2')
                   Perfil
                   </button>
                   <div class="dropdown-menu mr-sm-2" aria-labelledby="ddbsesion">
-                      <a class="dropdown-item" href="CambiarContrasena.html">Cambiar Contraseña</a>
+                      <a class="dropdown-item" href="CambiarContrasena.php">Cambiar Contraseña</a>
                       <a class="dropdown-item" href="CerrarSesion.php">Cerrar Sesión</a>
                   </div>
               </div>
             </div>
           </form>
         </div>
-    </nav>
+      </nav>
     <!--#endregion NavBar-->
 <br/>
         <!--#endregion Controles-->
@@ -99,126 +183,114 @@ else if($reg['IdRol'] == '2')
                     Consulta Autos
                   </div>
                   <div class="card-body">
-                    <div class="row">
+                      <div class="row">
                         <div class="col-sm">
-                            <label for="cmbMarca">Marca</label>
-                            <select class="form-control" name="cmbMarca">
-                                <option>Ford</option>
-                                <option>Volkswagen</option>
-                                <option>Nissan</option>
-                              </select>
+                          <label class="col-form-label" for="txtidauto">Auto</label>
+                          <input class="form-control" type="text" name="txtidauto"/>
                         </div>
                         <div class="col-sm">
-                            <label for="cmbModelo">Modelo</label>
-                            <select class="form-control" name="cmbModelo">
-                                <option>Modelo 1</option>
-                                <option>Modelo 2</option>
-                                <option>Modelo 3</option>
-                              </select>
                         </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                            <div class="col-sm">
-                                <label for="cmbVersion">Version</label>
-                                <select class="form-control" name="cmbVersion">
-                                    <option>Estandar</option>
-                                    <option>Deportiva</option>
-                                    <option>Lujo</option>
-                                  </select>
-                            </div>
-                            <div class="col-sm">
-                              <label class="form-label" for="txtFechaReg">Fecha Registro</label>
-                                <input class="form-control" type="date" name="txtFechaReg"/>
-                            </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                      <div class="col-sm">
-                          <label for="cmbUsuario">Usuario alta</label>
-                          <select class="form-control" name="cmbUsuario">
-                              <option>Hugo</option>
-                              <option>Paco</option>
-                              <option>Luis</option>
-                            </select>
                       </div>
-                      <div class="col-sm">
-                       </div>
-                    </div>
-                    <br/>
-                    <h5>Detalle</h5>
-                    <hr/>
-                    <div class="row">
-                      <div class="col-sm">
-                          <label for="txtNoSerie">Numero de Serie</label>
-                          <input class="form-control" type="text" name="txtNoSerie"/>
+                      <div class="row">
+                        <div class="col-sm">
+                          <label class="col-form-label" for="txtModelo">Modelo</label>
+                          <input class="form-control" type="text" name="txtModelo"/>
+                        </div>
+                        <div class="col-sm">
+                          <label class="col-form-label" for="txtMarca">Marca</label>
+                          <input class="form-control" type="text" name="txtMarca"/>
+                        </div>
                       </div>
-                      <div class="col-sm">
-                        <label for="txtAno">Año</label>
-                        <input class="form-control" type="date" name="txtAno"/>
+                      <br/>
+                      <div class="row">
+                        <div class="col-sm">
+                          <label class="col-form-label" for="txtVersion">Version</label>
+                          <input class="form-control" type="text" name="txtVersion"/>
+                        </div>
+                        <div class="col-sm">
+                            <label class="form-label" for="txtFechaReg">Fecha Registro</label>
+                            <input class="form-control" type="date" name="txtFechaReg"/>
+                        </div>
                       </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                      <div class="col-sm">
-                        <label for="cmbColor">Color</label>
-                        <select class="form-control" name="cmbColor">
-                            <option>Azul</option>
-                            <option>Rojo</option>
-                            <option>Gris</option>
-                          </select>
+                      <br/>
+                      <div class="row">
+                        <div class="col-sm">
+                          <label class="col-form-label" for="txtUsuario">Usuario Alta</label>
+                          <input class="form-control" type="text" name="txtUsuario"/>
+                        </div>
+                        <div class="col-sm">
+                        </div>
                       </div>
-                      <div class="col-sm">
-                        <label for="txtPlaca">Placa</label>
-                        <input class="form-control" type="text" name="txtPlaca"/>
+                      <br/>
+                      <h5>Detalle</h5>
+                      <hr/>
+                      <div class="row">
+                        <div class="col-sm">
+                            <label for="txtNoSerie">Numero de Serie</label>
+                            <input class="form-control" type="text" name="txtNoSerie"/>
+                        </div>
+                        <div class="col-sm">
+                          <label for="txtAno">Año</label>
+                          <input class="form-control" type="number" name="txtAno"/>
+                        </div>
                       </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                      <div class="col-sm">
-                        <label for="txtObservaciones">Observaciones</label>
-                        <input class="form-control" type="text" name="txtObservaciones"/>
+                      <br/>
+                      <div class="row">
+                        <div class="col-sm">
+                          <label class="col-form-label" for="txtColor">Color</label>
+                          <input class="form-control" type="text" name="txtColor"/>
+                        </div>
+                        <div class="col-sm">
+                          <label for="txtPlaca">Placa</label>
+                          <input class="form-control" type="text" name="txtPlaca"/>
+                        </div>
                       </div>
-                    </div>
-                    <br/>
-                    <h5>Concepto</h5>
-                    <hr/>
-                    <div class="row">
-                      <div class="col-sm">
-                        <label for="txtPrecio">Precio por dia</label>
-                        <input class="form-control" type="number" name="txtPrecio"/>
+                      <br/>
+                      <div class="row">
+                        <div class="col-sm">
+                          <label for="txtObservaciones">Observaciones</label>
+                          <input class="form-control" type="text" name="txtObservaciones"/>
+                        </div>
                       </div>
-                      <div class="col-sm">
+                      <br/>
+                      <h5>Concepto</h5>
+                      <hr/>
+                      <div class="row">
+                        <div class="col-sm">
+                          <label for="txtPrecio">Precio por dia</label>
+                          <input class="form-control" type="number" name="txtPrecio"/>
+                        </div>
+                        <div class="col-sm">
                         <br/>
                         <br/>
-                        &nbsp; &nbsp; &nbsp;<input type="checkbox" class="form-check-input" name="chkDisp"/>
-                        <label class="form-check-label" for="chkDisp">Auto Disponible</label>
+                          &nbsp; &nbsp; &nbsp;<input type="checkbox" class="form-check-input" name="chkDisp"/>
+                          <label class="form-check-label" for="chkDisp">Auto Disponible</label>
+                        </div>
                       </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                      <div class="col-sm">
-                        <button type="submit" class="btn btn-primary" name="btnBuscar">Buscar</button>
+                      <br/>
+                      <div class="row">
+                        <div class="col-sm">
+                          <button type="submit" class="btn btn-primary" name="btnBuscar">Buscar</button>
+                        </div>
+                        <div class="col-sm">
+                          <button type="submit" class="btn btn-success" name="btnRegistrar">Registrar</button>
+                        </div>
+                        <div class="col-sm">
+                          <button type="submit" class="btn btn-warning" name="btnModificar">Modificar</button>
+                        </div>
+                        <div class="col-sm">
+                          <button type="submit" class="btn btn-danger" name="btnBaja">Baja</button>
+                        </div>
+                        <div class="col-sm">
+                          <button type="submit" class="btn btn-outline-warning" name="btnLimpiar">Limpiar</button>
+                        </div>
                       </div>
-                      <div class="col-sm">
-                        <button type="submit" class="btn btn-success" name="btnRegistrar">Registrar</button>
-                      </div>
-                      <div class="col-sm">
-                        <button type="submit" class="btn btn-warning" name="btnModificar">Modificar</button>
-                      </div>
-                      <div class="col-sm">
-                        <button type="submit" class="btn btn-danger" name="btnBaja">Baja</button>
-                      </div>
-                      <div class="col-sm">
-                        <button type="submit" class="btn btn-outline-warning" name="btnLimpiar">Limpiar</button>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-          </form>
+                    </div>                  
+                </div>
+            </form>
+          </div>
+          <!--#endregion Controles-->
         </div>
-        <!--#endregion Controles-->
-      </div>
 
 </body>
 </html>
